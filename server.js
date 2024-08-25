@@ -3,7 +3,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const OpenAIApi = require('openai'); // Adjusted import
 const { transcribeMyAudio } = require('./speechRecognition');
-
+//the imports for handling audio input are below
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
+const upload = multer({ dest: 'uploads/' });
+//audio input imports end here
 
 const app = express();
 const port = 3000;
@@ -62,4 +67,30 @@ app.post('/chat', async (req, res) => {
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
+});
+
+//Added below part for the backend server to handle audio input, process it with the AI voice agent
+
+app.use(express.static('public'));
+
+// Define a route for the home page
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.post('/api/voice', upload.single('audio'), (req, res) => {
+    const audioPath = path.join(__dirname, req.file.path);
+
+
+    const responseText = "This is the simulated response from my AI voice agent yay.";
+
+    fs.unlinkSync(audioPath);
+
+    res.json({ text: responseText});
+
+});
+
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
