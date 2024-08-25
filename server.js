@@ -39,9 +39,9 @@ app.post('/chat', async (req, res) => {
 //So with code above Whisper can be used for speech recogn. in AI voice agent now.
 
 //Defining a root for the root path
-app.get('/', (req, res) => {
-    res.send('Welcome to the OpenAI Chat Server I just made yay!'); //This is the root path response
-})
+//app.get('/', (req, res) => {
+  //  res.send('Welcome to the OpenAI Chat Server I just made yay!'); //This is the root path response
+//})
 // Ends here
 
 const openai = new OpenAIApi({
